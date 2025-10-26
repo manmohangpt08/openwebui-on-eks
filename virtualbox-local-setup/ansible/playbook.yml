@@ -1,0 +1,49 @@
+---
+- hosts: k8snode
+  become: yes
+  tasks:
+    - name: Update apt
+      apt:
+        update_cache: yes
+
+    - name: Install base packages
+      apt:
+        name:
+          - curl
+          - docker.io
+          - conntrack
+          - apt-transport-https
+          - ca-certificates
+          - gnupg
+        state: present
+
+    - name: Enable docker
+      service:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Install kubectl
+      shell: |
+        curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
+        chmod +x kubectl && mv kubectl /usr/local/bin/
+
+    - name: Install minikube
+      shell: |
+        curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+        chmod +x minikube && mv minikube /usr/local/bin/
+
+    - name: Start minikube
+      shell: minikube start --driver=docker --cpus=2 --memory=4096
+
+    - name: Create namespace
+      shell: kubectl create ns ollama || true
+
+    - name: Copy k8s manifests
+      copy:
+        src: ../k8s/
+        dest: /home/vagrant/k8s/
+        mode: 0644
+
+    - name: Apply manifests
+      shell: kubectl apply -f /home/vagrant/k8s/ -n ollama
