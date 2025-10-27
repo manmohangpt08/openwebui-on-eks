@@ -1,0 +1,18 @@
+namespace: openwebui
+
+ollama:
+  image: ollama/ollama:latest
+  replicas: 1
+  port: 11434
+
+openwebui:
+  image: ghcr.io/open-webui/open-webui:main
+  replicas: 1
+  port: 8080
+  nodePort: 30080
+  volumePath: /mnt/openwebui-data
+
+ingress:
+  enabled: true
+  className: nginx
+  host: ""

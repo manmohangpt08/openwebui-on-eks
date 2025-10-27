@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openwebui
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: {{ .Values.openwebui.replicas }}
+  selector:
+    matchLabels:
+      app: openwebui
+  template:
+    metadata:
+      labels:
+        app: openwebui
+    spec:
+      containers:
+        - name: openwebui
+          image: {{ .Values.openwebui.image }}
+          ports:
+            - containerPort: {{ .Values.openwebui.port }}
+          env:
+            - name: RUNNER
+              value: "ollama"
+            - name: OLLAMA_BASE_URL
+              value: "http://ollama.{{ .Values.namespace }}.svc.cluster.local:{{ .Values.ollama.port }}"
+          volumeMounts:
+            - name: openwebui-data
+              mountPath: /app/backend/data
+      volumes:
+        - name: openwebui-data
+          hostPath:
+            path: {{ .Values.openwebui.volumePath }}
+            type: DirectoryOrCreate
