@@ -35,22 +35,22 @@ Quick setup (example)
 
 3. Deploy to Kubernetes
     - Ensure kubectl context points to the new cluster:
-         aws eks update-kubeconfig --region $AWS_REGION --name openwebui
+        - aws eks update-kubeconfig --region $AWS_REGION --name openwebui
     - Apply provided manifests
-         kubectl apply -f k8s/ollama.yaml
-         kubectl apply -f k8s/openwebui.yaml
+        - kubectl apply -f k8s/ollama.yaml
+        - kubectl apply -f k8s/openwebui.yaml
     - OR we can install the things using helm:
-         helm create openwebui-helm-chart # For creating helm chart
-         helm install openwebui ./openwebui-helm-chart # For installing it into the cluster
-         helm upgrade openwebui ./openwebui-chart --set openwebui.replicas=2  # for Upgrading or change values
-         helm uninstall openwebui # For Uninstalling openwebui
+        - helm create openwebui-helm-chart # For creating helm chart
+        - helm install openwebui ./openwebui-helm-chart # For installing it into the cluster
+        - helm upgrade openwebui ./openwebui-chart --set openwebui.replicas=2  # for Upgrading or change values
+        - helm uninstall openwebui # For Uninstalling openwebui
 
 5. Accessing the UI
     - If Service type=LoadBalancer:
-         kubectl get svc -n openwebui
-         Visit the EXTERNAL-IP:PORT shown.
+        - kubectl get svc -n openwebui
+        - Visit the EXTERNAL-IP:PORT shown.
     - If using Ingress with ALB/NGINX:
-         Configure DNS to point to the ingress controller external endpoint.
+        - Configure DNS to point to the ingress controller external endpoint.
     - If you want to access over privateip address
 
 6. Downloading LLM models:
