@@ -1,6 +1,42 @@
 Project: openwebui-on-eks
 Location: openwebui-on-eks/README.md
 
+Flow Diagram:
+
+                                            ┌────────────────────────┐
+                                            │     Terraform (IaC)     │
+                                            │  - Provisions EKS/Infra │
+                                            │  - Creates VPC, Nodes   │
+                                            └──────────┬─────────────┘
+                                                    │
+                                                    ▼
+                                            ┌────────────────────────┐
+                                            │     Kubernetes Cluster  │
+                                            │ (EKS or Minikube Local) │
+                                            └──────────┬─────────────┘
+                                                    │
+                                            ┌─────────┴─────────────┐
+                                            ▼                       ▼
+                                    ┌────────────────┐       ┌────────────────┐
+                                    │  Ollama Pod     │<---->│ OpenWebUI Pod  │
+                                    │  - Runs LLMs     │     │ - Frontend UI  │
+                                    │  (Llama2/phi3)   │     │ - Calls Ollama │
+                                    └────────────────┘       └────────────────┘
+                                            ▲                      │
+                                            │                      ▼
+                                            │             ┌────────────────┐
+                                            │             │   Ingress /    │
+                                            │             │   LoadBalancer │
+                                            │             │ (Exposes UI)   │
+                                            │             └────────────────┘
+                                            │
+                                            ▼
+                                    ┌────────────────────────┐
+                                    │   End User / Browser    │
+                                    │ Access via URL or Ngrok │
+                                    └────────────────────────┘
+
+
 Overview
 --------
 This repository contains infrastructure and deployment artifacts to run OpenWebUI (a web UI for hosting ML models) on AWS EKS. It focuses on reproducible cluster creation, container build/publish, Kubernetes manifests/Helm charts, and basic operational notes.
