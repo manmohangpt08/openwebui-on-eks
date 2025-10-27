@@ -18,6 +18,14 @@ spec:
         image: ollama/ollama:latest
         ports:
         - containerPort: 11434
+        volumeMounts:
+        - name: ollama-storage
+          mountPath: /root/.ollama
+      volumes:
+      - name: ollama-storage
+        hostPath:
+          path: /mnt/ollama-data
+          type: DirectoryOrCreate
 ---
 apiVersion: v1
 kind: Service
