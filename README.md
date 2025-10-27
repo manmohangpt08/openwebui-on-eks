@@ -36,6 +36,15 @@ Flow Diagram:
                                     │ Access via URL or Ngrok │
                                     └────────────────────────┘
 
+Flow Summary
+--------
+- Terraform → Automates infrastructure creation (EKS / Minikube setup).
+- Kubernetes → Hosts all workloads (openwebui, ollama pods, services, ingress).
+- OpenWebUI Pod → The web interface for chatting with models.
+- Ollama Pod → Runs the actual lightweight LLM (e.g., llama2, phi3:mini).
+- Service & Env Vars → OLLAMA_BASE_URL connects OpenWebUI to Ollama’s service inside the cluster.
+- Ingress / LoadBalancer → Makes OpenWebUI accessible externally.
+- User → Accesses the deployed UI via public URL (EKS endpoint or Ngrok).
 
 Overview
 --------
