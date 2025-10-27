@@ -1,5 +1,5 @@
-Project: openwebui-on-eks
-Location: openwebui-on-eks/README.md
+- Project: openwebui-on-eks
+- Location: openwebui-on-eks/README.md
 
 Flow Diagram:
 --------
