@@ -86,22 +86,27 @@ Quick setup (example)
         - kubectl apply -f k8s/ollama.yaml
         - kubectl apply -f k8s/openwebui.yaml
     - OR we can install the things using helm:
-        - helm create openwebui-helm-chart # For creating helm chart
         - helm install openwebui ./openwebui-helm-chart # For installing it into the cluster
         - helm upgrade openwebui ./openwebui-chart --set openwebui.replicas=2  # for Upgrading or change values
         - helm uninstall openwebui # For Uninstalling openwebui
 
 5. Accessing the UI
     - If Service type=LoadBalancer:
-        - kubectl get svc -n openwebui
+        - kubectl get svc -n openwebui or 
+        - if we are using minikube then run
+            - minikube service openwebui -n openwebui --url
         - Visit the EXTERNAL-IP:PORT shown.
     - If using Ingress with ALB/NGINX:
         - Configure DNS to point to the ingress controller external endpoint.
     - If you want to access over privateip address
+    - For Local testing:
+        - kubectl port-forward svc/openwebui 8080:8080 -n openwebui
+        - ngrok http 8080
 
 6. Downloading LLM models:
     - kubectl exec -it deploy/ollama -n openwebui -- ollama pull llama2
     - kubectl exec -it deploy/ollama -n openwebui -- ollama pull phi3:mini
+    - kubectl exec -it deploy/ollama -n openwebui -- ollama pull smollm2:135m
 
 7. Check list of downloaded models:
     - kubectl exec -it deploy/ollama -n openwebui -- ollama list
