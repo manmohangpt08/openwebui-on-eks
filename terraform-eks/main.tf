@@ -1,4 +1,3 @@
-/*
 # Creating VPC
 module "vpc" {
   source       = "./modules/vpc"
@@ -39,4 +38,3 @@ module "eks" {
   vpc-cni-version       = var.vpc-cni-version
   kube-proxy-version    = var.kube-proxy-version
 }
-*/
