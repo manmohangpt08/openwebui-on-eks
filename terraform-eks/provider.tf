@@ -1,15 +1,13 @@
-terraform {
-  required_version = ">= 1.5.0"
-
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 5.0"
-    }
-  }
+# configure aws provider
+provider "aws" {
+  region = var.region
 }
 
-provider "aws" {
-  region = var.aws_region
-  profile = var.aws_profile
+# configure backend
+terraform {
+  backend "s3" {
+    bucket         = "terraformstates3bucket"
+    key            = "aws-eks-terraform.tfstate"
+    region         = "us-west-2"
+  }
 }

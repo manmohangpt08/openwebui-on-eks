@@ -1,7 +1,4 @@
-output "cluster_name" {
-  value = module.eks.cluster_name
-}
-
-output "cluster_endpoint" {
-  value = module.eks.cluster_endpoint
+# EKS Cluster ID
+output "aws_eks_cluster_name" {
+  value = aws_eks_cluster.eks.id
 }
